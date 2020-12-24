@@ -1,0 +1,74 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r}
+dat1 = read.csv("47684938_1.csv")
+dat2 = read.csv("47684938_2.csv")
+dat3 = read.csv("47684938_3.csv")
+dat4 = read.csv("47684938_4.csv")
+dat5 = read.csv("47684938_5.csv")
+```
+
+# 格兰杰因果检验的变量应是平稳的
+# 单位根检验
+```{r}
+library(tseries)
+adf.test(dat1[,1])
+adf.test(dat1[,2])
+adf.test(dat2[,1])
+adf.test(dat2[,2])
+adf.test(dat3[,1])
+adf.test(dat3[,2])
+adf.test(dat4[,1])
+adf.test(dat4[,2])
+adf.test(dat5[,1])
+adf.test(dat5[,2])
+```
+
+# 格兰杰因果检验
+```{r}
+library(lmtest)
+
+grangertest(num ~ num_j, order = 2, data = dat1)
+grangertest(num ~ num_j, order = 2, data = dat2)
+grangertest(num ~ num_j, order = 2, data = dat3)
+grangertest(num ~ num_j, order = 2, data = dat4)
+grangertest(num ~ num_j, order = 2, data = dat5)
+```
+
+```{r}
+grangertest(num_j ~ num, order = 2, data = dat1)
+grangertest(num_j ~ num, order = 2, data = dat2)
+grangertest(num_j ~ num, order = 2, data = dat3)
+grangertest(num_j ~ num, order = 2, data = dat4)
+grangertest(num_j ~ num, order = 2, data = dat5)
+```
+
+
+```{r}
+num_1 = dat1$num_j
+num_2 = dat2$num_j
+num_3 = dat3$num_j
+num_4 = dat4$num_j
+num_5 = dat5$num_j
+```
+
+```{r}
+grangertest(num_1 ~ num_5, order = 2)
+grangertest(num_5 ~ num_1, order = 2)
+```
+
+```{r}
+grangertest(num_1 ~ num_3, order = 2)
+grangertest(num_3 ~ num_1, order = 2)
+```
+
+```{r}
+num_low = num_1 + num_2 + num_3
+num_high = num_4
+grangertest(num_low ~ num_high, order = 2)
+grangertest(num_high ~ num_low, order = 2)
+```
+
