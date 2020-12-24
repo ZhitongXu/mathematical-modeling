@@ -1,0 +1,7 @@
+700
+a = 0.5465517027089453
+
+value[i] = timesum[i] - a * duration[i]
+pos = 39
+neg = 113
+ratio = 0.74342
